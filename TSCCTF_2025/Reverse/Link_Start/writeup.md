@@ -2,7 +2,7 @@
 
 You have a chance to logout if you know the flag.
 
-檔案: [chal](./chal)
+檔案: [chal](./attachment/chal)
 
 ## 概觀
 
@@ -141,7 +141,7 @@ sub_1249((__int64)&v8, SHIBYTE(v9));
 
 以 Python 逆運算，得到一組輸入滿足 XOR 運算後指定之值
 
-檔案: [solution.py](./solution.py)
+檔案: [decrypt.py](./solution/decrypt.py)
 
 ```python
 target = [
