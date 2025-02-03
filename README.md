@@ -4,4 +4,4 @@
 
 ## 競賽
 
-+ [TSCCTF 2025](./TSCCTF_2025/README.md)
++ [TSCCTF 2025](./TSCCTF_2025/)
