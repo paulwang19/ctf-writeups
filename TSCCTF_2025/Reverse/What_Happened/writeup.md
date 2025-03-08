@@ -8,7 +8,7 @@
 
 放ˋˋ@($)@俺@Xsa在納莉
 
-檔案: [main.exe](./main.exe)
+檔案: [main.exe](./attachment/main.exe)
 
 ## 概觀
 
