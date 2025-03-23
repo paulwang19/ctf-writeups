@@ -2,5 +2,5 @@
 
 ## Reverse
 
-+ [What Happened](./Reverse/What_Happened/writeup.md)
-+ [Link Start](./Reverse/Link_Start/writeup.md)
++ [What Happened](./Reverse/what_happened.md)
++ [Link Start](./Reverse/link_start.md)

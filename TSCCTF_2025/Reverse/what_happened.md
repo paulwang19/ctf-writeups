@@ -8,7 +8,7 @@
 
 放ˋˋ@($)@俺@Xsa在納莉
 
-檔案: [main.exe](./attachment/main.exe)
+檔案: [main.exe](./files/What_Happened/main.exe)
 
 ## 概觀
 
@@ -26,15 +26,15 @@
 
 拖入 IDA Pro，將入口函式反編譯，只看到程式輸出四行執行時候輸出的字，並在一開始時將 `flag_encrypted` 賦值給 `Destination` (可能是在提示我們 flag 被加密過)，其他沒看到對於找 flag 有太大幫助的程式邏輯。
 
-![decompiled_code](./images/decompiled_code.jpg)
+![decompiled_code](./files/What_Happened/decompiled_code.jpg)
 
 檢查 IDA 辨識出來的所有函數，發現有個函數名稱很特別，叫 `_decrypt_flag`，似乎負責將 flag 解密。
 
-![functions_window](./images/functions_window.jpg)
+![functions_window](./files/What_Happened/functions_window.jpg)
 
 點進去看，發現其反編譯結果，有個將解密過後的 flag 輸出的程式碼。
 
-![decrypt_flag](./images/decrypt_flag.jpg)
+![decrypt_flag](./files/What_Happened/decrypt_flag.jpg)
 
 ### 動態執行解密函數
 
@@ -42,7 +42,7 @@
 
 透過 IDA debugger 功能，將斷點設於一開始，並且修改 `eip` 值為 `decrypt_flag` 函數所在位址，並讓其繼續執行直到整個函數執行完，最後發現經過解密，確實印出了一串訊息，並包含著 flag。
 
-![flag](./images/flag.jpg)
+![flag](./files/What_Happened/flag.jpg)
 
 ## Flag
 
