@@ -50,4 +50,4 @@ A single integer that is the maximum energy obtainable by summing non-adjacent t
 
 ## Solution
 
-[連結](../files/summoners_incantation.py)
+[Link](../files/summoners_incantation.py)
