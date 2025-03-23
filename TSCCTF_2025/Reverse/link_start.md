@@ -2,7 +2,7 @@
 
 You have a chance to logout if you know the flag.
 
-檔案: [chal](./files/Link_Start/chal)
+檔案: [chal](../files/Link_Start/chal)
 
 ## 概觀
 
@@ -14,22 +14,22 @@ chal: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linke
 ```
 
 執行發現需要輸入一組 flag，先隨便給 "123" 當作輸入，發現 Failed
-![start](./files/Link_Start/start.jpg)
+![start](../files/Link_Start/start.jpg)
 
 ### 反編譯
 
 開啟 IDA pro x64，找到 `main` 函式 **F5** 反編譯看程式流程。
 
 發現要求輸入後，會先判斷輸入長度是否等於 44，若不是就跳到 `LABEL_17`
-![ida_analysis_1](./files/Link_Start/ida_analysis_1.jpg)
+![ida_analysis_1](../files/Link_Start/ida_analysis_1.jpg)
 
 `LABEL_17` 即輸出 Failed 文字的地方
-![label_17](./files/Link_Start/label_17.jpg)
+![label_17](../files/Link_Start/label_17.jpg)
 
 觀察輸入的字串會用到的地方，觀察到其於 `79` 行與 `v8` 一起做為參數使用，`v8` 再於 `83` ~ `95` 行經過一連串迴圈運算，最後與 `s1` 一起做為參數使用 (類似以某種方式將 `v8` 賦值給 `s1` 的感覺)。
 
 最後 `s1` 與 `s2` 比較，相等即輸出 "Success"
-![ida_analysis_2](./files/Link_Start/ida_analysis_2.jpg)
+![ida_analysis_2](../files/Link_Start/ida_analysis_2.jpg)
 
 ### 直覺
 
@@ -75,26 +75,26 @@ chal: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linke
 ```
 
 正確反編譯結果
-![ida_analysis_3](./files/Link_Start/ida_analysis_3.jpg)
+![ida_analysis_3](../files/Link_Start/ida_analysis_3.jpg)
 
 ### 第一個迴圈
 
 將輸入的字串，從尾到頭每個字元與 `v8` 一同傳入 `sub_1249` 函式，進入該函式內部，看到其分配了一塊空間，並設定該空間第一個元素為傳入的字元。
-![sub_1249](./files/Link_Start/sub_1249.jpg)
+![sub_1249](../files/Link_Start/sub_1249.jpg)
 
 `v8` 為一個指標，其指向一段 heap 空間。
 
 設定斷點於呼叫 `sub_1249` 的位置，動態執行觀察 `v8` 指向空間之值，可發現，每次執行 `sub_1249` 後，`v8` 指向位置皆會改變，並且於原指向位置留下一塊已分配的空間，並且該空間首個 byte 為傳入的字元。
 
 給定輸入為 `this_is_input_1234567890_abcdefghijklmnopqrs` ，下圖為執行完整個 `for` 迴圈的結果，**紅圈**為每次執行 `sub_1249` 後，分配出空間的首個元素，將每個字元拼起來，即為所輸入的字串。
-![v8_value_1](./files/Link_Start/v8_value_1.jpg)
+![v8_value_1](../files/Link_Start/v8_value_1.jpg)
 
 ### 第二個迴圈
 
 輸入字串共 44 個字元，每次 4 個字元做迭代，內部有第二個迴圈，共做四次迭代，第一至第四次迭代將 `(16 * (k + 1)) ^ sub_12C5(&v8)` 的運算結果存至 `v9` 的第一至第四個 byte。
 
 動態執行觀察 `sub_12C5(&v8)` 結果為何，於呼叫處設斷點，動態執行觀察回傳值。
-![ida_analysis_4](./files/Link_Start/ida_analysis_4.jpg)
+![ida_analysis_4](../files/Link_Start/ida_analysis_4.jpg)
 
 迭代四次，觀察到四次執行後回傳值為 0x74、0x68、0x69、0x73，剛好能對應輸入的四個字元 't'、'h'、'i'、's'，由此可見，`sub_12C5(&v8)` 會依序回傳輸入字元的 Ascii 碼。
 
@@ -113,7 +113,7 @@ sub_1249((__int64)&v8, SHIBYTE(v9));
 
 紅圈即為轉換後結果，由高位至低位，分別為將原始字串，每 4 個字元一組，分別與 16、32、48、64 做 XOR 運算，並將這 4 個運算結果，以第 4、2、1、3 個為順序排列至記憶體位置高至低處。
 
-![v8_value_2](./files/Link_Start/v8_value_2.jpg)
+![v8_value_2](../files/Link_Start/v8_value_2.jpg)
 
 驗證如下:
 >
@@ -135,13 +135,13 @@ sub_1249((__int64)&v8, SHIBYTE(v9));
 
 `s2` 字串之值如下:
 
-![target_value](./files/Link_Start/target_value.jpg)
+![target_value](../files/Link_Start/target_value.jpg)
 
 ## 解決方案
 
 以 Python 逆運算，得到一組輸入滿足 XOR 運算後指定之值
 
-檔案: [decrypt.py](./files/Link_Start/decrypt.py)
+檔案: [decrypt.py](../files/Link_Start/decrypt.py)
 
 ```python
 target = [
