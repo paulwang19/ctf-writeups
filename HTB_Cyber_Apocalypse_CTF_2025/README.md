@@ -1,5 +1,11 @@
 # HTB_Cyber_Apocalypse_CTF_2025
 
+## Certificate
+
+![Certificate](./files/Certificate.jpg)
+
+[Certificate link](./files/Certificate-Pau1CTFer.pdf)
+
 ## Coding
 
 + [Summoners Incantation](./Coding/summoners_incantation.md)
